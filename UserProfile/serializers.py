@@ -8,9 +8,9 @@ class UserListSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'age')
 
 
-class FriendSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     friend = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Friend
-        fields = ('name',)
+        fields = ('username', 'friend')

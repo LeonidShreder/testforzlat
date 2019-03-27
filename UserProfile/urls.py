@@ -4,7 +4,7 @@ from UserProfile import views
 
 urlpatterns = [
     path('users/', views.UserList.as_view()),
-    # path('friends/', views.FriendList.as_view()),
+    path('users/friends/<int:pk>/', views.UserFriends.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
 ]
 

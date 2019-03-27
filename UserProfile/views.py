@@ -1,41 +1,25 @@
 from rest_framework import status
 from rest_framework.response import Response
-from UserProfile.models import User, Friend
-from UserProfile.serializers import UserListSerializer, FriendSerializer
+from UserProfile.models import User
+from UserProfile.serializers import UserListSerializer, UserSerializer
 from django.http import Http404
 from rest_framework.views import APIView
-
-# class FriendList(APIView):
-#
-#     def get(self, request, format=None):
-#         friend = Friend.objects.all()
-#         serializer = FriendSerializer(friend, many=True)
-#         return Response(serializer.data)
-#
-#     def post(self, request, format=None):
-#         serializer = FriendSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class UserList(APIView):
-
-    def get(self, request, format=None):
-        user = User.objects.all()
-        serializer = UserListSerializer(user, many=True)
-        return Response(serializer.data)
+from UserProfile.models import User
+from UserProfile.serializers import UserSerializer, UserListSerializer
+from rest_framework import generics
 
 
-    def post(self, request, format=None):
-        serializer = UserListSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
 
 
-class UserDetail(APIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
+
+
+class UserFriends(APIView):
 
     def get_object(self, pk):
         try:
@@ -60,3 +44,5 @@ class UserDetail(APIView):
         user = self.get_object(pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+

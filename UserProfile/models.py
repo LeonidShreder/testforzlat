@@ -3,10 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Friend(models.Model):
-    name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.name
+        return self.username
 
 
 class User(AbstractUser):
